@@ -1,16 +1,21 @@
-import { getMedicos } from "@/api/get";
+'use server'
 import BreadCrumbs from "@/components/BreadCrumbs";
-import React from "react";
+import React, { Suspense } from "react";
+import TablaMedicos from "./ui/TablaMedicos";
 
 const page = async () => {
-  const data = await getMedicos();
-  console.log(data);
+
   return (
     <>
       <BreadCrumbs
         title="Listado de medicos"
         data={[{ title: "Medicos" }]}
       />
+        <Suspense fallback={<div>Obteniendo datos...</div>}>
+          <TablaMedicos  />
+
+        </Suspense>
+
     </>
   );
 };

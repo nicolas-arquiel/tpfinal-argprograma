@@ -1,0 +1,74 @@
+1. **Tabla de Pacientes:**
+CREATE TABLE pacientes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255),
+    email VARCHAR(255),
+    numero_telefono VARCHAR(20),
+    obra_social_id INTEGER REFERENCES obras_sociales(id),
+    activo BOOLEAN DEFAULT true
+);
+
+
+
+2. **Tabla de Médicos:**
+CREATE TABLE medicos (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255),
+    especialidad_id INTEGER REFERENCES especialidades(id),
+    obra_social_id INTEGER REFERENCES obras_sociales(id),
+    activo BOOLEAN DEFAULT true
+);
+
+
+
+3. **Tabla de Turnos:**
+CREATE TABLE turnos (
+    id SERIAL PRIMARY KEY,
+    paciente_id INTEGER REFERENCES pacientes(id),
+    medico_id INTEGER REFERENCES medicos(id),
+    fecha DATE,
+    hora TIME,
+    estado_id INTEGER REFERENCES estados(id),
+    notas TEXT,
+    activo BOOLEAN DEFAULT true
+);
+
+
+
+4. **Tabla de Estados:**
+CREATE TABLE estados (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) UNIQUE
+);
+
+INSERT INTO estados (nombre) VALUES ('programado'), ('cancelado'), ('completado');
+
+
+
+5. **Tabla de Obras Sociales:**
+CREATE TABLE obras_sociales (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) UNIQUE
+);
+
+INSERT INTO obras_sociales (nombre) VALUES ('Salud Unida'), ('Solidaridad Protege'), ('Vida Integral'), ('Bienestar Comunitario'), ('Protección Activa'), ('Sin obra social');
+
+
+
+6. **Tabla de Relación Médicos - Obras Sociales:**
+CREATE TABLE medicos_obras_sociales (
+    medico_id INTEGER REFERENCES medicos(id),
+    obra_social_id INTEGER REFERENCES obras_sociales(id),
+    PRIMARY KEY (medico_id, obra_social_id)
+);
+
+
+
+7. **Tabla de Especialidades:**
+CREATE TABLE especialidades (
+    id SERIAL PRIMARY KEY,
+    descripcion VARCHAR(255) UNIQUE
+);
+
+INSERT INTO especialidades (descripcion) VALUES ('Cardiología'), ('Dermatología'), ('Pediatría');
+

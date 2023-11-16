@@ -26,13 +26,13 @@ export default function RootLayout({ children }) {
 
   return (
     <html
-      style={{ height: "100%", width: "100%", boxSizing: "border-box" }}
+      style={{ height: "100%", width: "100%", boxSizing: "border-box", backgroundColor:'##f8f8f8' }}
       lang="es"
     >
-      <body  suppressHydrationWarning={true} style={{ height: "100%", width: "100%", boxSizing: "border-box" }}>
+      <body  suppressHydrationWarning={true} style={{ height: "100%", width: "100%", boxSizing: "border-box", backgroundColor:'#f8f8f8' }}>
         <Card
         className="p-0 m-0"
-          style={{ height: "100%", width: "100%", boxSizing: "border-box" }}
+          style={{ height: "100%", width: "100%", boxSizing: "border-box", backgroundColor:'#f8f8f8' }}
         >
           <CardBody className="p-0 m-0">
             <Row className="p-0 m-0 d-flex h-100">
@@ -55,17 +55,17 @@ export default function RootLayout({ children }) {
                 className="p-0 m-0 "
               >
               <Card
-                 style={{ height: "100%", width: "100%", boxSizing: "border-box" }}
+                 style={{ height: "100%", width: "100%", boxSizing: "border-box", backgroundColor:'#f8f8f8' }}
               >
-                <CardHeader className="d-flex justify-content-center align-items-center m-0 p-0" style={{ height: "10%"}} >
+                <CardHeader className="d-flex justify-content-center align-items-center m-0 p-0" style={{ height: "10%", backgroundColor:'#f8f8f8'}} >
                 <NavBar/>
 
                 </CardHeader>
-                <CardBody style={{ height: "85%" }}>
-                <div >{children}</div>
+                <CardBody className="px-xl-5 px-4"  style={{ height: "85%", backgroundColor:'#f8f8f8' }}>
+                {children}
 
                 </CardBody>
-                <CardFooter  style={{ height: "5%" }} >
+                <CardFooter  style={{ height: "5%", backgroundColor:'#f8f8f8' }} >
                   asd
                 </CardFooter>
               </Card>

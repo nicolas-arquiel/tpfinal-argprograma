@@ -1,4 +1,4 @@
-import { getTurnos } from '@/api/get'
+import { getTurnos } from '@/api/turnos/get'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import React from 'react'
 

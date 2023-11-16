@@ -1,4 +1,4 @@
-import { getPacientes } from '@/api/get'
+import { getPacientes } from '@/api/pacientes/get'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import React from 'react'
 
