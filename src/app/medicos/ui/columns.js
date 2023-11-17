@@ -30,7 +30,7 @@ export const columns = [
     minWidth: "150px",
     cell: (row) => (
       <AccionesBtn
-
+          props={row}
       />
     ),
   }

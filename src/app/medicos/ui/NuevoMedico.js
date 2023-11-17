@@ -24,7 +24,6 @@ const NuevoMedico = ({ obrassociales, especialidades }) => {
   const [show, setShow] = useState(false);
   const { simpleAlert, loadingAlert } = useCustomAlert();
 
-  // ** Hooks
   const { reset, control, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
@@ -34,7 +33,7 @@ const NuevoMedico = ({ obrassociales, especialidades }) => {
         setShow(false);
         simpleAlert({
           title: "Carga exitosa!",
-          message: "Archivo cargado con exito.",
+          message: "Medico cargado con exito.",
           icon: "success",
         });
       })

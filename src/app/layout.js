@@ -13,6 +13,7 @@ import {
   Row,
 } from "reactstrap";
 import NavBar from "@/components/NavBar";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,7 +58,7 @@ export default function RootLayout({ children }) {
               <Card
                  style={{ height: "100%", width: "100%", boxSizing: "border-box", backgroundColor:'#f8f8f8' }}
               >
-                <CardHeader className="d-flex justify-content-center align-items-center m-0 p-0" style={{ height: "10%", backgroundColor:'#f8f8f8'}} >
+                <CardHeader className="d-flex justify-content-end align-items-center m-0 p-0" style={{ height: "10%", backgroundColor:'#f8f8f8'}} >
                 <NavBar/>
 
                 </CardHeader>
@@ -66,7 +67,8 @@ export default function RootLayout({ children }) {
 
                 </CardBody>
                 <CardFooter  style={{ height: "5%", backgroundColor:'#f8f8f8' }} >
-                  asd
+                  <Link href={'https://github.com/nicolas-arquiel?tab=repositories'} target="_blank" className="nav-link text-primary">Clinica, Argentina Programa</Link>
+                  
                 </CardFooter>
               </Card>
 

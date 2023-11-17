@@ -15,6 +15,8 @@ const TablaMedicos = async() => {
   const dataMedicos = await getMedicos();
   const dataObraSocial = await getObrasSociales()
   const dataEspecialidades = await getEspecialidades()
+
+  const filterFields = ["nombre", "nombre_especialidad", "nombres_obras_sociales"];
   
   return (
     <Fragment>
@@ -25,6 +27,7 @@ const TablaMedicos = async() => {
         columns={columns}
         additionalComponent={<NuevoMedico obrassociales={dataObraSocial} especialidades={dataEspecialidades} />}
         data={dataMedicos}
+        filterFields={filterFields}
       />
         </Row>
       </Card>

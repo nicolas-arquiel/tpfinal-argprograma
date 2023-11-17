@@ -1,9 +1,9 @@
-import { getPacientes } from '@/api/pacientes/get'
-import BreadCrumbs from '@/components/BreadCrumbs'
-import React from 'react'
+'use server'
+import BreadCrumbs from "@/components/BreadCrumbs";
+import React, { Suspense } from "react";
+import TablaPacientes from "./ui/TablaPacientes";
 
-const page = async() => {
-  const data = await getPacientes()
+const page = async () => {
 
   return (
     <>
@@ -11,8 +11,13 @@ const page = async() => {
         title="Listado de pacientes"
         data={[{ title: "Pacientes" }]}
       />
-    </>
-  )
-}
+        <Suspense fallback={<div>Obteniendo datos...</div>}>
+          <TablaPacientes  />
 
-export default page
+        </Suspense>
+
+    </>
+  );
+};
+
+export default page;

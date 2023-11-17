@@ -1,63 +1,60 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'react-feather';
-import { Row, Col, Label, Input } from 'reactstrap'; 
+'use client';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight, Search } from 'react-feather';
+import { Controller } from 'react-hook-form';
+import { Row, Col, Label, Input } from 'reactstrap';
 
-const CustomTable = ({ pagination, columns, paginationPerPage = 10, data: initialData = [], additionalComponent }) => {
+const CustomTable = ({ pagination, columns, paginationPerPage = 10, data: initialData = [], additionalComponent, filterFields }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(initialData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      if (!Array.isArray(initialData)) {
+        throw new Error("La data no es un array válido.");
+      }
+
+      if (!columns.length && initialData.length > 0) {
+        const firstDataItem = initialData[0];
+        const keys = Object.keys(firstDataItem);
+        columns = keys.map((key) => ({
+          name: key,
+          minWidth: "auto",
+          cell: (row) => <span>{row[key]}</span>,
+        }));
+      }
+
+      if (isFiltering) {
+        const lowerSearchValue = searchValue.toLowerCase();
+        const updatedData = initialData.filter(item => {
+          return filterFields.some(fieldName => {
+            const cellValue = item[fieldName];
+            return cellValue && cellValue.toString().toLowerCase().includes(lowerSearchValue);
+          });
+        });
+        setFilteredData(updatedData);
+      } else {
+        setFilteredData(initialData);
+      }
+      setCurrentPage(1);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setFilteredData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        if (!Array.isArray(initialData)) {
-          throw new Error("La data no es un array válido.");
-        }
-
-        // si la data es un array vacío
-
-
-        //  si no se proporcionan generamos columnas
-        if (!columns.length && initialData.length > 0) {
-          const firstDataItem = initialData[0];
-          const keys = Object.keys(firstDataItem);
-          columns = keys.map((key) => ({
-            name: key,
-            minWidth: "auto", 
-            cell: (row) => <span>{row[key]}</span>,
-          }));
-        }
-
-        // funcion de filtrado de datos
-        if (searchValue.length) {
-          const lowerSearchValue = searchValue.toLowerCase();
-          const updatedData = initialData.filter(item => {
-            return columns.some(column => {
-              const cellValue = item[column.name];
-              return cellValue && cellValue.toString().toLowerCase().includes(lowerSearchValue);
-            });
-          });
-          setFilteredData(updatedData);
-        } else {
-          setFilteredData(initialData);
-        }
-        setCurrentPage(1);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-        setFilteredData([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
-  }, [searchValue, initialData]);
+  }, [searchValue, initialData, filterFields, isFiltering]);
 
   const indexOfLastItem = currentPage * paginationPerPage;
   const indexOfFirstItem = indexOfLastItem - paginationPerPage;
@@ -77,6 +74,23 @@ const CustomTable = ({ pagination, columns, paginationPerPage = 10, data: initia
     }
   };
 
+  const handleSearch = () => {
+    setIsFiltering(true);
+    fetchData();
+  };
+
+  const handleInputChange = useCallback((e) => {
+    setSearchValue(e.target.value);
+    setIsFiltering(false);
+  }, [setSearchValue, setIsFiltering]);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Enter') {
+      setIsFiltering(true);
+      fetchData();
+    }
+  }, []);
+
   return (
     <div className="table-responsive p-3 border">
       {error && <p>Error: {error}</p>}
@@ -86,7 +100,7 @@ const CustomTable = ({ pagination, columns, paginationPerPage = 10, data: initia
             <Col className='d-flex align-items-center gap-3 justify-content-end mt-1' md='12' lg='8' sm='12'>
               <div className='d-flex align-items-center gap-3 lg-me-5'>
                 {columns.length > 0 && (
-                  <>
+                  <div className='d-none'>
                     <Label className='me-1 mb-0 pb-0' htmlFor='search-input'>
                       Buscar
                     </Label>
@@ -96,10 +110,14 @@ const CustomTable = ({ pagination, columns, paginationPerPage = 10, data: initia
                       className='border-2'
                       id='search-input'
                       value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      disabled={!initialData.length} // deshabilitar si no hay datos
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      disabled={!initialData.length}
                     />
-                  </>
+                    <button className="btn btn-light" onClick={handleSearch}>
+                      <Search size={20} />
+                    </button>
+                  </div>
                 )}
                 {additionalComponent && (
                   <div>{additionalComponent}</div>

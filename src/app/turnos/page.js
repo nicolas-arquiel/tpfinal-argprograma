@@ -1,10 +1,9 @@
-import { getTurnos } from '@/api/turnos/get'
-import BreadCrumbs from '@/components/BreadCrumbs'
-import React from 'react'
+'use server'
+import BreadCrumbs from "@/components/BreadCrumbs";
+import React, { Suspense } from "react";
+import TablaTurnos from "./ui/TablaTurnos";
 
-const page = async() => {
-
-  const data = await getTurnos()
+const page = async () => {
 
   return (
     <>
@@ -12,8 +11,13 @@ const page = async() => {
       title="Listado de turnos"
       data={[{ title: "Turnos" }]}
     />
-  </>
-  )
-}
+        <Suspense fallback={<div>Obteniendo datos...</div>}>
+          <TablaTurnos  />
 
-export default page
+        </Suspense>
+
+    </>
+  );
+};
+
+export default page;

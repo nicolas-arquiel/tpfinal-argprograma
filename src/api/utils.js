@@ -9,10 +9,11 @@ export function validarData(data, propiedadesRequeridas) {
       throw new Error(`propiedades faltantes `);
     }
   
-    const valoresVacios = propiedadesRequeridas.filter(prop => data[prop].trim() === '');
+    const valoresVacios = propiedadesRequeridas.filter(prop => typeof data[prop] === 'string' && data[prop].trim() === '');
+
   
     if (valoresVacios.length > 0) {
-      throw new Error(`valores vacíos en data `);
+      throw new Error(`valores vacíos `);
     }
   
     console.log('La validación fue exitosa.');

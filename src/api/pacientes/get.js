@@ -2,7 +2,12 @@ import { sql } from '@vercel/postgres';
 
 export async function getPacientes() {
     try {
-      const data = await sql`SELECT * FROM pacientes`;
+      const data = await sql`
+      SELECT pacientes.id, pacientes.nombre, pacientes.email, pacientes.numero_telefono, obras_sociales.id AS obra_social_id, obras_sociales.nombre AS obra_social
+      FROM pacientes
+      LEFT JOIN obras_sociales ON pacientes.obra_social_id = obras_sociales.id;
+      
+`;
   
       return data.rows;
     } catch (error) {
@@ -13,7 +18,12 @@ export async function getPacientes() {
 
   export async function getPacienteById(pacienteId) {
     try {
-      const paciente = await sql`SELECT * FROM pacientes WHERE id = ${pacienteId}`;
+      const paciente = await sql`
+      SELECT pacientes.id, pacientes.nombre, pacientes.email, pacientes.numero_telefono, obras_sociales.id AS obra_social_id, obras_sociales.nombre AS obra_social
+      FROM pacientes
+      LEFT JOIN obras_sociales ON pacientes.obra_social_id = obras_sociales.id
+      WHERE pacientes.id = ${pacienteId} AND activo = true;
+      `;
       
       if (paciente.rows.length === 0) {
         throw new Error('Paciente no encontrado.');

@@ -1,6 +1,5 @@
 'use client'
 import { Fragment } from 'react'
-import Proptypes from 'prop-types'
 import Link from 'next/link'
 import {
   Breadcrumb,
@@ -48,13 +47,4 @@ const BreadCrumbs = ({ data, title }) => {
 }
 export default BreadCrumbs
 
-// ** PropTypes
-BreadCrumbs.propTypes = {
-  title: Proptypes.string.isRequired,
-  data: Proptypes.arrayOf(
-    Proptypes.shape({
-      link: Proptypes.string,
-      title: Proptypes.string.isRequired
-    })
-  )
-}
+

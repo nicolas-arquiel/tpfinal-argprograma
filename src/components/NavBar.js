@@ -20,7 +20,9 @@ const NavBar = () => {
       >
         <NavLinks vertical={false} />
       </div>
-      <div className="d-none d-md-flex justify-content-center ">Clinica Testeo</div>
+    <Link className="d-none d-md-flex justify-content-end align-items-center h-100  m-0 p-0  bg-primary bg-gradient nav-link" href={'/'} >
+        <h2 className="fw-bolder text-white mx-3 p-3 rounded-3" > SaludInnova</h2>
+    </Link>
     </>
   );
 };
